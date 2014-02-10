@@ -11,7 +11,8 @@ func main() {
         var cfg cargo.Config
         err := gcfg.ReadFileInto(&cfg, "Cargofile")
         if err != nil {
-                fmt.Printf("Cargofile not found.")
+                fmt.Printf("Cargofile not found.\n")
                 os.Exit(1)
         }
+        fmt.Printf("%s\n", cfg)
 }
