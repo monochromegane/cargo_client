@@ -1,11 +1,14 @@
 package config
 
 type Config struct {
-	Docker struct {
-		Src     string
-		Dest    string
-		Command string
+	Docker_Host struct {
+		Ssh_Config string
+		Host       string
+	}
+	Docker_Container struct {
 		Image   string
+		Mount   string
+		Command string
 	}
 	Cargo struct {
 		GroupBy     string
@@ -13,13 +16,10 @@ type Config struct {
 		User        string
 		WorkDir     string
 	}
-	Ssh struct {
-		SshConfig string
-		Host      string
+	Cargo_Client struct {
+		SrcDir string
 	}
-	GoPackage struct {
+	Go_Package struct {
 		Package string
 	}
 }
-
-
