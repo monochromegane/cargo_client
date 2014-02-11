@@ -17,5 +17,6 @@ func main() {
 	}
         cargo := cargo.Cargo{cfg}
 	cargo.SendAssets()
-	cargo.Run()
+        result, err := cargo.Run()
+	fmt.Printf("%s, %s\n", result, err)
 }
