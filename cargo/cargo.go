@@ -1,11 +1,18 @@
 package cargo
 
 import (
-	"github.com/monochromegane/cargo_client/cargo/config"
 	"github.com/monochromegane/cargo_client/cargo/command"
+	"github.com/monochromegane/cargo_client/cargo/config"
 )
 
-func Run(cfg config.Config) {
-	command.Scp(cfg)
-	command.Ssh(cfg)
+type Cargo struct {
+	Config config.Config
+}
+
+func (self *Cargo) SendAssets() {
+	command.Scp(self.Config)
+}
+
+func (self *Cargo) Run() {
+	command.Ssh(self.Config)
 }

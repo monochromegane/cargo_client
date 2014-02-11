@@ -15,5 +15,7 @@ func main() {
 		fmt.Printf("Cargofile not found.\n")
 		os.Exit(1)
 	}
-	cargo.Run(cfg)
+        cargo := cargo.Cargo{cfg}
+	cargo.SendAssets()
+	cargo.Run()
 }
