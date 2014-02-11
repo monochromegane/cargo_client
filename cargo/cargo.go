@@ -3,6 +3,7 @@ package cargo
 import (
 	"github.com/monochromegane/cargo_client/cargo/command"
 	"github.com/monochromegane/cargo_client/cargo/config"
+	"path/filepath"
 )
 
 type Cargo struct {
@@ -10,9 +11,12 @@ type Cargo struct {
 }
 
 func (self *Cargo) SendAssets() {
-	command.Scp(self.Config)
-}
-
-func (self *Cargo) Run() {
-	command.Ssh(self.Config)
+	cfg := self.Config
+	scp := command.ScpCommand{
+		Config: cfg.Docker_Host.Ssh_Config,
+		From:   cfg.Cargo_Client.SrcDir,
+		Host:   cfg.Docker_Host.Host,
+		To:     filepath.Join(cfg.Cargo.WorkDir, cfg.Docker_Container.Image, cfg.Cargo.User, "current"),
+	}
+        scp.Command().Run()
 }

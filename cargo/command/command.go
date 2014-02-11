@@ -4,22 +4,8 @@ import (
 	"fmt"
 	"github.com/monochromegane/cargo_client/cargo/config"
 	"os/exec"
-	"path/filepath"
 	"strconv"
 )
-
-func Scp(cfg config.Config) {
-	cmd := exec.Command(
-		"scp",
-		"-r",
-		"-F",
-		cfg.Docker_Host.Ssh_Config,
-		cfg.Cargo_Client.SrcDir,
-		cfg.Docker_Host.Host+":"+filepath.Join(cfg.Cargo.WorkDir, cfg.Docker_Container.Image, cfg.Cargo.User, "current"),
-	)
-	// fmt.Printf("%s\n", cmd.Args)
-	cmd.Run()
-}
 
 func Ssh(cfg config.Config) {
 	cmd := exec.Command(
