@@ -7,7 +7,7 @@ import (
 )
 
 type Cargo struct {
-	Config config.Config
+	Config *config.Config
 }
 
 func (self *Cargo) SendAssets() {

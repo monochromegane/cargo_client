@@ -23,3 +23,16 @@ type Config struct {
 		Package string
 	}
 }
+
+func DefaultConfig() *Config {
+	cfg := &Config{}
+
+	cfg.Cargo.GroupBy = "file-size"
+	cfg.Cargo.Concurrency = 1
+	cfg.Cargo.User = "cargo"
+	cfg.Cargo.WorkDir = "/tmp/cargo"
+
+	cfg.Cargo_Client.SrcDir = "."
+
+	return cfg
+}

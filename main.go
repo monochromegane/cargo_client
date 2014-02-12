@@ -9,8 +9,8 @@ import (
 )
 
 func main() {
-	var cfg config.Config
-	err := gcfg.ReadFileInto(&cfg, "Cargofile")
+        cfg := config.DefaultConfig()
+	err := gcfg.ReadFileInto(cfg, "Cargofile")
 	if err != nil {
 		fmt.Printf("Cargofile not found.\n")
 		os.Exit(1)
