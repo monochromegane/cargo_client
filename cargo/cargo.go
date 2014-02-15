@@ -12,11 +12,20 @@ type Cargo struct {
 
 func (self *Cargo) SendAssets() {
 	cfg := self.Config
+
+        topath := filepath.Join(cfg.Cargo.WorkDir, cfg.Docker_Container.Image, cfg.Cargo.User)
+	mkdir := command.SshCommand{
+		Config: cfg.Docker_Host.Ssh_Config,
+		Host:   cfg.Docker_Host.Host,
+		Cmd:    []string{"mkdir", "-p", topath},
+	}
+        mkdir.Command().Run()
+
 	scp := command.ScpCommand{
 		Config: cfg.Docker_Host.Ssh_Config,
 		From:   cfg.Cargo_Client.SrcDir,
 		Host:   cfg.Docker_Host.Host,
-		To:     filepath.Join(cfg.Cargo.WorkDir, cfg.Docker_Container.Image, cfg.Cargo.User, "current"),
+		To:     filepath.Join(topath, "current"),
 	}
 	scp.Command().Run()
 }
@@ -37,12 +46,10 @@ func (self *Cargo) Run() (result []byte, err error) {
 		cargo.GoPackage = cfg.Go_Package.Package
 	}
 
-	cargo_cmd := cargo.Command()
-
 	ssh := command.SshCommand{
 		Config: cfg.Docker_Host.Ssh_Config,
 		Host:   cfg.Docker_Host.Host,
-		Cmd:    cargo_cmd.Args,
+		Cmd:    cargo.Command().Args,
 	}
 
 	return ssh.Command().Output()
