@@ -13,13 +13,13 @@ type Cargo struct {
 func (self *Cargo) SendAssets() {
 	cfg := self.Config
 
-        topath := filepath.Join(cfg.Cargo.WorkDir, cfg.Docker_Container.Image, cfg.Cargo.User)
+	topath := filepath.Join(cfg.Cargo.WorkDir, cfg.Docker_Container.Image, cfg.Cargo.User)
 	mkdir := command.SshCommand{
 		Config: cfg.Docker_Host.Ssh_Config,
 		Host:   cfg.Docker_Host.Host,
 		Cmd:    []string{"mkdir", "-p", topath},
 	}
-        mkdir.Command().Run()
+	mkdir.Command().Run()
 
 	scp := command.ScpCommand{
 		Config: cfg.Docker_Host.Ssh_Config,
