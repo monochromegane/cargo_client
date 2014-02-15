@@ -27,6 +27,8 @@ type Config struct {
 func DefaultConfig() *Config {
 	cfg := &Config{}
 
+        cfg.Docker_Host.Ssh_Config = "~/.ssh/config"
+        cfg.Docker_Host.Host = "default"
 	cfg.Cargo.GroupBy = "file-size"
 	cfg.Cargo.Concurrency = 1
 	cfg.Cargo.User = "cargo"
