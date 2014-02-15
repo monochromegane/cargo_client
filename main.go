@@ -29,6 +29,8 @@ func main() {
 	}
 
 	switch args[0] {
+	case "init":
+		cargoInit()
 	case "run":
 		run()
 	}
@@ -46,4 +48,12 @@ func run() {
 	cargo.SendAssets()
 	result, err := cargo.Run()
 	fmt.Printf("%s, %s\n", result, err)
+}
+
+func cargoInit() {
+	err := config.CopyFromTemplate()
+	if err != nil {
+		fmt.Printf("Failed to create Cargofile.\n %s\n", err)
+		os.Exit(1)
+	}
 }
