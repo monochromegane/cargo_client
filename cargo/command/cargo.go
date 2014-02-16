@@ -23,7 +23,7 @@ func (self *CargoCommand) Command() *exec.Cmd {
 		"-u", self.User,
 		"-w", self.WorkDir,
 		"-g", self.GroupBy,
-		"-d", self.Mount,
+		"-m", self.Mount,
 		"-n", strconv.Itoa(self.Concurrency),
 		"-c", "\"" + self.Cmd + "\"",
 	}
