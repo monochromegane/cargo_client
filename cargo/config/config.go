@@ -23,9 +23,6 @@ type Config struct {
 	Cargo_Client struct {
 		SrcDir string
 	}
-	Go_Package struct {
-		Package string
-	}
 }
 
 func DefaultConfig() *Config {

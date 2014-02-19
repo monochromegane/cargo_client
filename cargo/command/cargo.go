@@ -3,6 +3,7 @@ package command
 import (
 	"os/exec"
 	"strconv"
+	"strings"
 )
 
 type CargoCommand struct {
@@ -12,8 +13,8 @@ type CargoCommand struct {
 	GroupBy     string
 	Mount       string
 	Concurrency int
-	Cmd         string
-	GoPackage   string
+	Cmd         []string
+	Target      string
 }
 
 func (self *CargoCommand) Command() *exec.Cmd {
@@ -25,11 +26,8 @@ func (self *CargoCommand) Command() *exec.Cmd {
 		"-g", self.GroupBy,
 		"-m", self.Mount,
 		"-n", strconv.Itoa(self.Concurrency),
-		"-c", "\"" + self.Cmd + "\"",
-	}
-
-	if len(self.GoPackage) > 0 {
-		cmd = append(cmd, []string{"--go-package", self.GoPackage}...)
+		"-c", "\"" + strings.Join(self.Cmd, " ") + "\"",
+		"-t", self.Target,
 	}
 
 	return exec.Command("/vagrant/go/bin/cargo", cmd...)

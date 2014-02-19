@@ -4,6 +4,7 @@ import (
 	"github.com/monochromegane/cargo_client/cargo/command"
 	"github.com/monochromegane/cargo_client/cargo/config"
 	"path/filepath"
+	"strings"
 )
 
 type Cargo struct {
@@ -32,6 +33,7 @@ func (self *Cargo) SendAssets() {
 
 func (self *Cargo) Run() (result []byte, err error) {
 	cfg := self.Config
+	cmd := strings.Split(cfg.Docker_Container.Command, " ")
 
 	cargo := command.CargoCommand{
 		Image:       cfg.Docker_Container.Image,
@@ -40,10 +42,8 @@ func (self *Cargo) Run() (result []byte, err error) {
 		GroupBy:     cfg.Cargo.GroupBy,
 		Mount:       cfg.Docker_Container.Mount,
 		Concurrency: cfg.Cargo.Concurrency,
-		Cmd:         cfg.Docker_Container.Command,
-	}
-	if len(cfg.Go_Package.Package) > 0 {
-		cargo.GoPackage = cfg.Go_Package.Package
+		Cmd:         cmd[:len(cmd)-1],
+		Target:      cmd[len(cmd)-1],
 	}
 
 	ssh := command.SshCommand{
