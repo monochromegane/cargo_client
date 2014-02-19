@@ -30,5 +30,5 @@ func (self *CargoCommand) Command() *exec.Cmd {
 		"-t", self.Target,
 	}
 
-	return exec.Command("/vagrant/go/bin/cargo", cmd...)
+	return exec.Command("cargo", cmd...)
 }
