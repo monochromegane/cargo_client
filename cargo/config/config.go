@@ -44,7 +44,7 @@ func DefaultConfig() *Config {
 }
 
 func CopyFromTemplate() error {
-	return ioutil.WriteFile("Cargofile_", []byte(template()), 0644)
+	return ioutil.WriteFile("Cargofile", []byte(template()), 0644)
 }
 
 func template() string {
