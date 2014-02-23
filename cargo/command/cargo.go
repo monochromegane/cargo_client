@@ -14,6 +14,7 @@ type CargoCommand struct {
 	GroupBy     string
 	Mount       string
 	Concurrency int
+	BeforeAll   string
 	Cmd         []string
 	Target      string
 	Filter      string
@@ -28,6 +29,7 @@ func (self *CargoCommand) Command() *exec.Cmd {
 		"-g", self.GroupBy,
 		"-m", self.Mount,
 		"-n", strconv.Itoa(self.Concurrency),
+		"-b", "\"" + self.BeforeAll + "\"",
 		"-c", "\"" + strings.Join(self.Cmd, " ") + "\"",
 		"-t", self.Target,
 		"-f", self.Filter,

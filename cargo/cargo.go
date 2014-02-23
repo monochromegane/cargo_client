@@ -48,6 +48,7 @@ func (self *Cargo) Run() (result []byte, err error) {
 		GroupBy:     cfg.Cargo.GroupBy,
 		Mount:       cfg.Docker_Container.Mount,
 		Concurrency: cfg.Cargo.Concurrency,
+		BeforeAll:   cfg.Docker_Container.Before_All,
 		Cmd:         cmd[:len(cmd)-1],
 		Target:      cmd[len(cmd)-1],
 		Filter:      cfg.Docker_Container.Filter,

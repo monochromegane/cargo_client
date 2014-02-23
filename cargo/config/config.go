@@ -10,10 +10,11 @@ type Config struct {
 		Host       string
 	}
 	Docker_Container struct {
-		Image   string
-		Mount   string
-		Command string
-		Filter  string
+		Image      string
+		Mount      string
+		Before_All string
+		Command    string
+		Filter     string
 	}
 	Cargo struct {
 		Debug       bool
