@@ -44,6 +44,7 @@ func (self *Cargo) Run() (result []byte, err error) {
 		Concurrency: cfg.Cargo.Concurrency,
 		Cmd:         cmd[:len(cmd)-1],
 		Target:      cmd[len(cmd)-1],
+		Filter:      cfg.Docker_Container.Filter,
 	}
 
 	ssh := command.SshCommand{

@@ -13,6 +13,7 @@ type Config struct {
 		Image   string
 		Mount   string
 		Command string
+                Filter  string
 	}
 	Cargo struct {
 		GroupBy     string

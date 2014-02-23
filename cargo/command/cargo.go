@@ -15,6 +15,7 @@ type CargoCommand struct {
 	Concurrency int
 	Cmd         []string
 	Target      string
+	Filter      string
 }
 
 func (self *CargoCommand) Command() *exec.Cmd {
@@ -28,6 +29,7 @@ func (self *CargoCommand) Command() *exec.Cmd {
 		"-n", strconv.Itoa(self.Concurrency),
 		"-c", "\"" + strings.Join(self.Cmd, " ") + "\"",
 		"-t", self.Target,
+		"-f", self.Filter,
 	}
 
 	return exec.Command("cargo", cmd...)
