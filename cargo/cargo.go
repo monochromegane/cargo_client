@@ -1,13 +1,16 @@
 package cargo
 
 import (
+	"fmt"
 	"github.com/monochromegane/cargo_client/cargo/command"
 	"github.com/monochromegane/cargo_client/cargo/config"
+	"github.com/monochromegane/cargo_client/cargo/option"
 	"path/filepath"
 	"strings"
 )
 
 type Cargo struct {
+	Option *option.Option
 	Config *config.Config
 }
 
@@ -20,6 +23,7 @@ func (self *Cargo) SendAssets() {
 		Host:   cfg.Docker_Host.Host,
 		Cmd:    []string{"mkdir", "-p", topath},
 	}
+	self.printDebug(mkdir.Command().Args)
 	mkdir.Command().Run()
 
 	scp := command.ScpCommand{
@@ -28,6 +32,7 @@ func (self *Cargo) SendAssets() {
 		Host:   cfg.Docker_Host.Host,
 		To:     filepath.Join(topath, "current"),
 	}
+	self.printDebug(scp.Command().Args)
 	scp.Command().Run()
 }
 
@@ -53,5 +58,12 @@ func (self *Cargo) Run() (result []byte, err error) {
 		Cmd:    cargo.Command().Args,
 	}
 
+	self.printDebug(ssh.Command().Args)
 	return ssh.Command().Output()
+}
+
+func (self *Cargo) printDebug(log ...interface{}) {
+	if self.Option.Debug {
+		fmt.Printf("DEBUG: %s\n", log)
+	}
 }

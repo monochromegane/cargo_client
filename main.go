@@ -32,19 +32,19 @@ func main() {
 	case "init":
 		cargoInit()
 	case "run":
-		run()
+		run(opts)
 	}
 
 }
 
-func run() {
+func run(opts option.Option) {
 	cfg := config.DefaultConfig()
 	err := gcfg.ReadFileInto(cfg, "Cargofile")
 	if err != nil {
 		fmt.Printf("Cargofile parse error.\n %s\n", err)
 		os.Exit(1)
 	}
-	cargo := cargo.Cargo{cfg}
+	cargo := cargo.Cargo{&opts, cfg}
 	cargo.SendAssets()
 	result, err := cargo.Run()
 	fmt.Printf("%s, %s\n", result, err)
