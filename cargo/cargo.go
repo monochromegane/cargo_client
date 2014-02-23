@@ -41,6 +41,7 @@ func (self *Cargo) Run() (result []byte, err error) {
 	cmd := strings.Split(cfg.Docker_Container.Command, " ")
 
 	cargo := command.CargoCommand{
+		Debug:       cfg.Cargo.Debug,
 		Image:       cfg.Docker_Container.Image,
 		User:        cfg.Cargo.User,
 		WorkDir:     cfg.Cargo.WorkDir,

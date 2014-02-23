@@ -16,6 +16,7 @@ type Config struct {
 		Filter  string
 	}
 	Cargo struct {
+		Debug       bool
 		GroupBy     string
 		Concurrency int
 		User        string

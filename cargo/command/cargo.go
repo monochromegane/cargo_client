@@ -7,6 +7,7 @@ import (
 )
 
 type CargoCommand struct {
+	Debug       bool
 	Image       string
 	User        string
 	WorkDir     string
@@ -30,6 +31,10 @@ func (self *CargoCommand) Command() *exec.Cmd {
 		"-c", "\"" + strings.Join(self.Cmd, " ") + "\"",
 		"-t", self.Target,
 		"-f", self.Filter,
+	}
+
+	if self.Debug {
+		cmd = append(cmd, "--debug")
 	}
 
 	return exec.Command("cargo", cmd...)
