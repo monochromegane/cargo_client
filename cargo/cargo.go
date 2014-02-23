@@ -17,7 +17,7 @@ type Cargo struct {
 func (self *Cargo) SendAssets() {
 	cfg := self.Config
 
-	topath := filepath.Join(cfg.Cargo.WorkDir, cfg.Docker_Container.Image, cfg.Cargo.User)
+	topath := filepath.Join(cfg.Cargo.WorkDir, cfg.Docker_Container.Image, cfg.Cargo.User, "current")
 	mkdir := command.SshCommand{
 		Config: cfg.Docker_Host.Ssh_Config,
 		Host:   cfg.Docker_Host.Host,
@@ -26,14 +26,25 @@ func (self *Cargo) SendAssets() {
 	self.printDebug(mkdir.Command().Args)
 	mkdir.Command().Run()
 
-	scp := command.ScpCommand{
+	git := command.GitLsFilesCommand{}
+	tar_c := command.CreateTarCommand{}
+	tar_x := command.ExtractTarCommand{topath}
+	ssh := command.SshCommand{
 		Config: cfg.Docker_Host.Ssh_Config,
-		From:   cfg.Cargo_Client.SrcDir,
 		Host:   cfg.Docker_Host.Host,
-		To:     filepath.Join(topath, "current"),
+		Cmd:    tar_x.Command().Args,
 	}
-	self.printDebug(scp.Command().Args)
-	scp.Command().Run()
+
+	self.printDebug(git.Command().Args)
+	self.printDebug(tar_c.Command().Args)
+	self.printDebug(ssh.Command().Args)
+
+	command.Pipeline(
+		git.Command(),
+		tar_c.Command(),
+		ssh.Command(),
+	)
+
 }
 
 func (self *Cargo) Run() (result []byte, err error) {

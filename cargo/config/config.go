@@ -23,9 +23,6 @@ type Config struct {
 		User        string
 		WorkDir     string
 	}
-	Cargo_Client struct {
-		SrcDir string
-	}
 }
 
 func DefaultConfig() *Config {
@@ -37,8 +34,6 @@ func DefaultConfig() *Config {
 	cfg.Cargo.Concurrency = 1
 	cfg.Cargo.User = "cargo"
 	cfg.Cargo.WorkDir = "/tmp/cargo"
-
-	cfg.Cargo_Client.SrcDir = "."
 
 	return cfg
 }
@@ -64,9 +59,6 @@ command     = ; docker run command
 ; user        = cargo
 ; workdir     = /tmp/cargo
 concurrency = 2 ; number of concurrency
-
-[cargo-client]
-; srcdir      = .
 
 `
 }
