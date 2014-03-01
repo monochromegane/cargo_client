@@ -14,7 +14,7 @@ type Cargo struct {
 	Config *config.Config
 }
 
-func (self *Cargo) SendAssets() {
+func (self *Cargo) SendAssets() bool {
 	cfg := self.Config
 
 	topath := filepath.Join(cfg.Cargo.WorkDir, cfg.Docker_Container.Image, cfg.Cargo.User, "current")
@@ -24,7 +24,11 @@ func (self *Cargo) SendAssets() {
 		Cmd:    []string{"mkdir", "-p", topath},
 	}
 	self.printDebug(mkdir.Command().Args)
-	mkdir.Command().Run()
+	result, err := mkdir.Command().CombinedOutput()
+	if err != nil {
+		fmt.Printf("%s\n%s\n", result, err)
+		return false
+	}
 
 	git := command.GitLsFilesCommand{}
 	tar_c := command.CreateTarCommand{}
@@ -39,12 +43,17 @@ func (self *Cargo) SendAssets() {
 	self.printDebug(tar_c.Command().Args)
 	self.printDebug(ssh.Command().Args)
 
-	command.Pipeline(
+	stdout, stderr, err := command.Pipeline(
 		git.Command(),
 		tar_c.Command(),
 		ssh.Command(),
 	)
 
+	if err != nil {
+		fmt.Printf("%s\n%s\n%s\n", stdout, stderr, err)
+		return false
+	}
+	return true
 }
 
 func (self *Cargo) Run() (result []byte, err error) {
@@ -72,7 +81,7 @@ func (self *Cargo) Run() (result []byte, err error) {
 	}
 
 	self.printDebug(ssh.Command().Args)
-	return ssh.Command().Output()
+	return ssh.Command().CombinedOutput()
 }
 
 func (self *Cargo) printDebug(log ...interface{}) {

@@ -44,10 +44,19 @@ func run(opts option.Option) {
 		fmt.Printf("Cargofile parse error.\n %s\n", err)
 		os.Exit(1)
 	}
+
 	cargo := cargo.Cargo{&opts, cfg}
-	cargo.SendAssets()
-	result, err := cargo.Run()
-	fmt.Printf("%s, %s\n", result, err)
+	resultSendAssets := cargo.SendAssets()
+	if !resultSendAssets {
+		fmt.Println("Failed to send assets to docker host.")
+		return
+	}
+
+	resultRun, err := cargo.Run()
+	fmt.Printf("%s\n", resultRun)
+	if err != nil {
+		fmt.Printf("Failed to run cargo.\n%s\n", err)
+	}
 }
 
 func cargoInit() {
